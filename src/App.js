@@ -1,51 +1,33 @@
-import React from 'react';
-import PropTypes from "prop-types";
+import React from "react"; //react uses virtual DOM
 
-const foodIlike = [
-  {
-    id:1,
-    name: "kimchi",
-    image: "https://minimalistbaker.com/wp-content/uploads/2016/02/EASY-10-ingredient-VEGAN-KIMCHI-Spicy-tangy-crunchy-DELICIOUS-vegan-glutenfree-recipe-kimchi-768x1152.jpg",
-    rating: 5
-  },
-  {
-    id:2,
-    name: "ramen",
-    image: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/190208-delish-ramen-horizontal-093-1550096715.jpg?crop=1xw:0.9995002498750624xh;center,top&resize=768:*",
-    rating: 4.6
-  },
-  {
-    id:3,
-    name: "lemon",
-    image: "https://i5.walmartimages.ca/images/Large/094/504/6000200094504.jpg",
-    rating: 4.5
+class App extends React.Component {
+  //state is object. data changes within in it
+  state = {
+    count: 0
+  };
+
+  //setState refresh the state, and refresh render method
+  //when setState is called, it rerender with new state which is inside of it
+  //if we change state in mutable way, render wouldn't refresh itself
+  plus = () => {
+    this.setState(current => ({
+      count: current.count + 1
+    }));
+  };
+  minus = () => {
+    this.setState({ count: this.state.count - 1 }); //setState(new state<object>)
+  };
+
+  render() {
+    //automatically execution class component doesn't have return. render method shows on screen
+    return (
+      <div>
+        <h1>The number is {this.state.count}</h1>
+        <button onClick={this.plus}>plus</button>
+        <button onClick={this.minus}>minus</button>
+      </div>
+    );
   }
-];
-
-function Food({name, picture, rating}){  //component : insert html source
-  return(
-    <div>
-      <h1>I like {name}</h1>
-      <h4>{rating} / 5.0</h4>
-      <img src={picture} alt={name}/>
-    </div>
-  );
-}
-
-Food.propTypes = {
-  name:PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired
-};
-
-function App() {
-  return (
-  <div>
-    {foodIlike.map(dish => 
-    <Food key={dish.id} name={dish.name} picture={dish.image} rating={dish.rating}/>
-    )}
-  </div>
-  );
 }
 
 export default App;
