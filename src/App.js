@@ -1,30 +1,45 @@
 import React from "react"; //react uses virtual DOM
+import axios from "axios";
+import Moive from "./Movie";
 
 class App extends React.Component {
-  //state is object. data changes within in it
   state = {
-    count: 0
+    isLoading: true,
+    movies: []
   };
 
-  //setState refresh the state, and refresh render method
-  //when setState is called, it rerender with new state which is inside of it
-  //if we change state in mutable way, render wouldn't refresh itself
-  plus = () => {
-    this.setState(current => ({
-      count: current.count + 1
-    }));
+  // function getMovies needs time to complete axios thing
+  getMovies = async () => {
+    const {
+      data: {
+        data: { movies }
+      }
+    } = await axios.get(
+      "https://yts-proxy.now.sh/list_movies.json?sort_by=rating"
+    );
+    this.setState({ movies, isLoading: false });
   };
-  minus = () => {
-    this.setState({ count: this.state.count - 1 }); //setState(new state<object>)
-  };
+
+  componentDidMount() {
+    this.getMovies();
+  }
 
   render() {
-    //automatically execution class component doesn't have return. render method shows on screen
+    const { isLoading, movies } = this.state;
     return (
       <div>
-        <h1>The number is {this.state.count}</h1>
-        <button onClick={this.plus}>plus</button>
-        <button onClick={this.minus}>minus</button>
+        {isLoading
+          ? "Loading.."
+          : movies.map(movie => (
+              <Moive
+                key={movie.id}
+                id={movie.id}
+                year={movie.year}
+                title={movie.title}
+                summary={movie.summary}
+                poster={movie.medium_cover_image}
+              />
+            ))}
       </div>
     );
   }
