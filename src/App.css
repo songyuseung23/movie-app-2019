@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+}
+
+body {
+  background-color: rgba(112, 142, 148, 0.616);
+}
+
+.loading {
+  margin-top: 20%;
+}
+
+.loading img {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  height: 100px;
+}
+
+.Loader-text {
+  display: block;
+  margin: 0 auto;
+  font-size: 50px;
+  text-align: center;
+}
